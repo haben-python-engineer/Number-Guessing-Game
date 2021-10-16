@@ -33,39 +33,41 @@ def start_game():
     print('Welcome! Test your skills and guess the mystery number!')
     print('_' * 55)
 
-    mystery_number = random.randint(1, 10)
+    random_number = random.randint(1, 10)
     attempts = 1
-    print(mystery_number)
     while True:
         try:
             guess = int(input('Take a shot and guess the mystery number. It\'s between 1 and 10: '))
-        except ValueError:
-            print('Oh no! That is an invalid value. Please try again')
-        else:
+            print('')
             if guess > 10 or guess < 1:
-                print('Number is outside of the ranges 1-10')
-                print('This will not be counted as an attempt')
-            elif guess > mystery_number:
+                raise ValueError(f'{guess} is not within the 1-10 range')
+        except ValueError as e:
+            print(f'Oh no! That is an invalid value ({e})')
+        else:
+            if guess > random_number:
                 print('Oops! That guess is too high')
                 attempts += 1
-            elif guess < mystery_number:
+                continue
+            elif guess < random_number:
                 print('Oops! That guess is too low')
                 attempts += 1
-            else:
-                if attempts == 1:
-                    print(f'You solved the mystery! It took you only {attempts} try awesome!')
-                else:
-                    print(f'You solved the mystery! It took you {attempts} tries')
-                guess = input('Would you like to play again? (Yes/No): ')
-                if guess.lower() == 'yes':
-                    print(f'The current HIGHSCORE(Least amount of attempts taken to guess the number) is ---> {attempts}')
-                    mystery_number = random.randint(1, 10)
-                    attempts = 1
-                    print(mystery_number)
-                    continue
-                elif guess.lower() == 'no':
-                    print('Thanks for playing! See you soon!')
+                continue
+            elif guess == random_number:
+                print(f'You solved the mystery! It took you {attempts} tries')
+                random_number = random.randint(1, 10)
+                play_again = input('Would you like to play again? (Yes/No): ')
+                if play_again.lower() == 'yes':
+                   continue
+                elif play_again.lower() == 'no':
+                    print('Thanks for playing! Bye for now.')
                     break
+
+
+
+
+
+
+
 
 
 
